@@ -29,9 +29,11 @@ if "%~1"=="" (
 ) else (
     echo http
     set varA=%~1
+    echo %varA%
     set www=%varA:~8,11%
     echo %www%
     if "%www%"=="www.youtube" (
+        echo youtube
         yt-dlp ^
         --embed-metadata ^
         --embed-thumbnail ^
@@ -42,12 +44,13 @@ if "%~1"=="" (
         --output "%%(channel)s/[%%(upload_date)s]%%(title)s-%%(id)s.%%(ext)s" ^
         --output "thumbnail:%%(channel)s/[%%(upload_date)s]%%(title)s-%%(id)s.%%(ext)s" 
     ) else if "%www%"=="nicochannel" (
+        echo nico
         yt-dlp ^
         --cookies nicochannel.jp_cookies.txt ^
         --embed-metadata --embed-thumbnail ^
         -f 4951 %~1 ^
         --write-thumbnail ^
-        --output "%(channel)s/[%(release_date)s]%(title)s-%(id)s.%(ext)s" ^
-        --output "thumbnail:%(channel)s/[%(release_date)s]%(title)s-%(id)s.%(ext)s"
+        --output "%%(channel)s/[%%(release_date)s]%%(title)s-%%(id)s.%%(ext)s" ^
+        --output "thumbnail:%%(channel)s/[%%(release_date)s]%%(title)s-%%(id)s.%%(ext)s"
     )
 )
