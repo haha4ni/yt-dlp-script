@@ -39,7 +39,7 @@ if "%~1"=="" (
         --embed-metadata ^
         --embed-thumbnail ^
         --write-thumbnail ^
-        --write-sub --embed-sub --sub-lang en,zh,jp ^
+        --write-sub --embed-sub --sub-lang en,zh,zh-TW,zh-Hant,jp ^
         -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio" ^
         %~1 ^
         --output "%%(channel)s/[%%(upload_date)s]%%(title)s.%%(ext)s" ^
