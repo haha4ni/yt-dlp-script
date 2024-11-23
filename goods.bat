@@ -1,57 +1,61 @@
 @echo off
 setlocal enabledelayedexpansion
-::腳本
+
+:main
 if "%~1"=="" (
-    echo Open test.txt
-    for /f %%a in (test.txt) do (
-      set varA=%%a
-      set www=!varA:~12,4!
-      if "!www!"=="yout" (
-        yt-dlp ^
-        --embed-metadata ^
-        --embed-thumbnail ^
-        --write-thumbnail ^
-        --write-sub --embed-sub --sub-lang en,zh,jp ^
-        -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio" ^
-        %%a ^
-        --output "%%(channel)s/[%%(upload_date)s]%%(title)s.%%(ext)s" ^
-        --output "thumbnail:%%(channel)s/[%%(upload_date)s]%%(title)s.%%(ext)s" 
-      ) ^
-      else if "!www!"=="nico" (
-        yt-dlp ^
-        --cookies www.nicovideo.jp_cookies.txt ^
-        --embed-metadata ^
-        --embed-thumbnail ^
-        -f "h264_720p-aac_192kbps-http" ^
-        %%a ^
-        --output "%%(channel)s/[%%(upload_date)s]%%(title)s.%%(ext)s" 
-      )
+    echo Open download_list.txt 
+    for /f "delims=" %%a in (download_list.txt) do (
+        set varA=%%a
+        set www=!varA:~8,11!
+        if "!www!"=="www.youtube" (
+            call :download_youtube "%%a"
+        ) ^
+        else if "!www!"=="nicochannel" (
+            call :download_nicochannel "%%a"
+        )
     )
-) else (
+) ^
+else (
     echo http
     set varA=%~1
-    echo %varA%
     set www=!varA:~8,11!
-    echo %www%
     if "!www!"=="www.youtube" (
-        echo youtube
-        yt-dlp ^
+        call :download_youtube "%~1"
+    ) ^
+    else if "!www!"=="nicochannel" (
+        call :download_nicochannel "%~1"
+    )
+)
+goto :end
+
+:download_youtube
+    echo download_youtube
+    echo %~1
+    yt-dlp ^
+        --cookies music.youtube.com_cookies.txt ^
         --embed-metadata ^
         --embed-thumbnail ^
         --write-thumbnail ^
         --write-sub --embed-sub --sub-lang en,zh,zh-TW,zh-Hant,jp ^
         -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio" ^
-        %~1 ^
+        %1 ^
         --output "%%(channel)s/[%%(upload_date)s]%%(title)s.%%(ext)s" ^
-        --output "thumbnail:%%(channel)s/[%%(upload_date)s]%%(title)s.%%(ext)s" 
-    ) else if "!www!"=="nicochannel" (
-        echo nico
-        yt-dlp ^
+        --output "thumbnail:%%(channel)s/[%%(upload_date)s]%%(title)s.%%(ext)s"
+    goto :eof
+
+:download_nicochannel
+    echo download_nicochannel
+    yt-dlp ^
         --cookies nicochannel.jp_cookies.txt ^
-        --embed-metadata --embed-thumbnail ^
-        -f 4951 %~1 ^
+        --embed-metadata ^
+        --embed-thumbnail ^
         --write-thumbnail ^
+        -f 4951 ^
+        %1 ^
         --output "%%(channel)s/[%%(release_date)s]%%(title)s.%%(ext)s" ^
         --output "thumbnail:%%(channel)s/[%%(release_date)s]%%(title)s.%%(ext)s"
-    )
-)
+    goto :eof
+
+:end
+echo End of script.
+endlocal
