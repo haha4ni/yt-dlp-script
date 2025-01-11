@@ -13,8 +13,8 @@
 ---
 
 ## Cookies
-如需近一步下載更高畫質/音質的檔案，請搭配自身的Cookies使用，Cookies導出套件如下
-https://chromewebstore.google.com/detail/get-cookiestxt-locally/cclelndahbckbenkjhflpdbgdldlbecc
+如需近一步下載更高畫質/音質的檔案，請搭配自身的Cookies使用，Cookies導出套件如下：  
+https://chromewebstore.google.com/detail/get-cookiestxt-locally/cclelndahbckbenkjhflpdbgdldlbecc  
 到相對應的網站主頁(Youtube、Bilibili...)點擊Export As下載至此專案根目錄，對應的網站Cookies.txt檔名如下
 
 - **`music.youtube.com_cookies.txt`**：
