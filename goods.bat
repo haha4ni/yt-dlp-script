@@ -12,6 +12,9 @@ if "%~1"=="" (
         ) ^
         else if "!www!"=="nicochannel" (
             call :download_nicochannel "%%a"
+        ) ^
+        else if "!www!"=="www.bilibil" (
+            call :download_bilibili "%%a"
         )
     )
 ) ^
@@ -77,7 +80,7 @@ goto :end
     
 :download_bilibili
     @REM for test
-    @REM yt-dlp --cookies www.bilibili.com_cookies.txt -F "https://www.bilibili.com/video/BV1pB4y1f7Pz/?share_source=copy_web&vd_source=1983853958445a17c1d4b0d0d997109d"
+    @REM yt-dlp --cookies www.bilibili.com_cookies.txt -F "https://www.bilibili.com/video/BV1r24y1v7sR?vd_source=2e26a6c1d0d7327d891a98f9915c7d22&spm_id_from=333.788.videopod.episodes&p=25"
     echo download_bilibili
     yt-dlp ^
         --cookies www.bilibili.com_cookies.txt ^
