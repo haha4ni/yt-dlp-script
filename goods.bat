@@ -2,7 +2,31 @@
 setlocal enabledelayedexpansion
 
 :main
-if "%~1"=="" (
+if "%~1"=="-music" (
+    echo Music Download Mode
+    if "%~2"=="" (
+        echo Error: URL parameter required after -music
+        echo Usage: goods.bat -music "URL"
+        echo Supports: YouTube, Bilibili
+        goto :end
+    )
+    set varA=%2
+    set www=!varA:~9,11!
+    if "!www!"=="www.youtube" (
+        call :download_music_flac "%~2"
+    ) ^
+    else if "!www!"=="music.youtu" (
+        call :download_music_flac "%~2"
+    ) ^
+    else if "!www!"=="www.bilibil" (
+        call :download_music_flac "%~2"
+    ) ^
+    else (
+        echo Error: -music parameter supports YouTube and Bilibili URLs only
+        goto :end
+    )
+) ^
+else if "%~1"=="" (
     echo Open download_list.txt 
     for /f "delims=" %%a in (download_list.txt) do (
         set varA=%%a
@@ -39,6 +63,38 @@ else (
 )
 goto :end
 
+
+:download_music_flac
+    echo download_music_flac
+    set varA=%1
+    set www=!varA:~9,11!
+    if "!www!"=="www.youtube" (
+        yt-dlp ^
+            --no-playlist ^
+            -x ^
+            --audio-format flac ^
+            -o "%%(title)s.%%(ext)s" ^
+            %1
+    ) ^
+    else if "!www!"=="music.youtu" (
+        yt-dlp ^
+            --cookies music.youtube.com_cookies.txt ^
+            --no-playlist ^
+            -x ^
+            --audio-format flac ^
+            -o "%%(title)s.%%(ext)s" ^
+            %1
+    ) ^
+    else if "!www!"=="www.bilibil" (
+        yt-dlp ^
+            --cookies www.bilibili.com_cookies.txt ^
+            --no-playlist ^
+            -x ^
+            --audio-format flac ^
+            -o "%%(title)s.%%(ext)s" ^
+            %1
+    )
+    goto :eof
 
 :download_youtube_music
     echo download_youtube_music
