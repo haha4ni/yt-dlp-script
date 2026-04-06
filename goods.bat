@@ -72,7 +72,7 @@ goto :end
         yt-dlp ^
             --no-playlist ^
             -x ^
-            --audio-format flac ^
+            --audio-format best ^
             -o "%%(title)s.%%(ext)s" ^
             %1
     ) ^
@@ -81,7 +81,7 @@ goto :end
             --cookies music.youtube.com_cookies.txt ^
             --no-playlist ^
             -x ^
-            --audio-format flac ^
+            --audio-format best ^
             -o "%%(title)s.%%(ext)s" ^
             %1
     ) ^
@@ -90,7 +90,7 @@ goto :end
             --cookies www.bilibili.com_cookies.txt ^
             --no-playlist ^
             -x ^
-            --audio-format flac ^
+            --audio-format best ^
             -o "%%(title)s.%%(ext)s" ^
             %1
     )
@@ -99,6 +99,7 @@ goto :end
 :download_youtube_music
     echo download_youtube_music
     yt-dlp ^
+	    --js-runtime node ^
         --cookies music.youtube.com_cookies.txt ^
         --embed-metadata ^
         --extract-audio ^
